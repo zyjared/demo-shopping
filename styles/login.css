@@ -1,0 +1,72 @@
+@import url(./common.css);
+
+.login, .signup {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 2rem;
+  gap: .25rem;
+}
+
+h2 {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content:space-between;
+}
+
+h2 .broom {
+  cursor: pointer;
+}
+
+h2 .broom svg {
+  width: 1.5rem;
+}
+
+h2 .broom  path {
+  stroke: var(--primary);
+}
+
+h2 .broom:hover path {
+  stroke:  var(--active);
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item > span {
+  display: block;
+  width: 4em;
+  text-align: justify;
+  text-align-last: justify; /* 兼容性处理 */
+  position: relative;
+}
+
+.item > span::after {
+    content: ":";
+    position: absolute;
+    top: 50%;
+    right: -.35em;
+    transform: translateY(-50%);
+}
+
+.item > input {
+  display: block;
+  width: 200px;
+}
+
+.error {
+  font-size: 0.8rem;
+  color: var(--danger);
+  text-align: center;
+  height: 1.5rem;
+}

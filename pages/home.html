@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首页</title>
+  <script src="../scripts/core/element.js"></script>
+  <script src="../scripts/core/api.js"></script>
+  <script src="../scripts/accounts.js"></script>
+
+  <script src="../scripts/layout.js"></script>
+
+  <link rel="stylesheet" href="/styles/common.css" class="css">
+  <style>
+    .products {
+      --price: rgb(226, 71, 71);
+      --price-rgb: 226, 71, 71;
+      --width: 12rem;
+
+      display: flex;
+      gap: .75rem 1rem;
+      align-items: flex-start;
+      flex-flow: row wrap;
+    }
+
+    .product {
+      width: var(--width);
+      /* height: fit-content; */
+      color: var(--text) !important;
+      background-color: rgba(var(--bg-rgb), .7);
+      border-radius: .4rem;
+      overflow: hidden;
+      transition: transform .2s ease-in-out;
+    }
+
+    /* .product:hover {
+      transform: scale(1.05);
+    } */
+
+    .product .image-container,
+    .product .image {
+      width: var(--width);
+      height: var(--width);
+      overflow: hidden;
+    }
+
+    .product .image {
+      width: var(--width);
+      height: var(--width);
+      object-fit: cover;
+      transition: transform .35s;
+    }
+
+    .product:hover .image {
+      transform: scale(1.15);
+    }
+
+    .intro {
+      padding: .5rem;
+    }
+
+    .intro .price {
+      color: var(--price);
+    }
+
+    .intro .price::before {
+      display: inline-block;
+      content: '¥';
+      transform-origin: bottom;
+      transform: scale(.7);
+      line-height: 1em;
+    }
+
+    .tip .recommend,
+    .tip .coupon {
+      display: inline-block;
+      color: burlywood;
+      line-height: 1em;
+      width: fit-content;
+      padding: 3px 4px;
+
+      transform-origin: left top;
+      transform: scale(.6);
+    }
+
+    .tip .coupon {
+      border: 1px solid rgba(var(--price-rgb), .8);
+      border-radius: .25em;
+      color: var(--price);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="glass-container">
+    <h1><a href="#">
+        SHOPPING
+      </a></h1>
+    <nav>
+      <ul>
+        <li>
+          <a class="active" href="#">
+            首页
+          </a>
+        </li>
+        <li>
+          <a href="/pages/cart.html">
+            购物车
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="user">
+      <span class="username">用户</span>
+      <div class="avatar-container"></div>
+      <div class="user-actions ani-slide-up">
+        <ul class="glass">
+          <li class="link" onclick="logout()">注销</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="glass-container">
+    <div class="container products">
+    </div>
+  </main>
+
+  <script>
+    (async function () {
+
+      const tips = [
+        { class: 'coupon', texts: ['领券满 1500 减 100', '领券满 59 减 20'] },
+        { class: 'recommend', texts: ['2千人已被店铺种草', '近7天浏览过千'] }
+      ]
+
+      const products = await $api.getTableData($api.keys.products)
+      const elements = Object.entries(products).map(([key, product], index) => {
+        let wrapperAttrs = {
+          class: "product-wrapper",
+          style: {}
+        }
+        if (index < 20) {
+          wrapperAttrs = {
+            class: "product-wrapper ani-slide-up",
+            style: { animationDelay: 0.2 * (index + 1) + 's' }
+          }
+        }
+        const wrapper = $element.create('div', wrapperAttrs)
+
+        const container = $element.create('a', {
+          class: 'product',
+          href: `/pages/product.html?data=${JSON.stringify(product)}`, // 直接传数据方便些，不是偷懒 ~.~
+        })
+        wrapper.append(container)
+
+        const img = $element.create('div', {
+          class: 'image-container', children: $element.create('img', { class: 'image', src: product.image, alt: `${product.name}产品图` })
+        })
+
+        const intro = $element.create('div', { class: 'intro' })
+        const name = $element.create('div', { class: 'name ellipsis', textContent: product.name })
+        const price = $element.create('div', { class: 'price', textContent: (product.price / 100).toFixed(2) })
+
+
+        const rand = (list) => list[Math.floor(Math.random() * list.length)]
+        const tipData = rand(tips);
+        const tipText = rand(tipData.texts)
+        const tip = $element.create('div', { class: 'tip ellipsis' })
+        tip.append($element.create('span', { class: tipData.class, textContent: tipText }))
+        intro.append(name, price, tip)
+
+        container.append(img, intro)
+
+        return wrapper
+      })
+
+      const main = document.querySelector('.products').append(...elements)
+    })()
+  </script>
+  <script src="/scripts/extensions.js"></script>
+</body>
+
+</html>

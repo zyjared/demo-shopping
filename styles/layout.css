@@ -1,0 +1,114 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+header nav {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+header nav ul {
+    display: flex;
+    gap: .8rem;
+}
+
+header nav a {
+    color: rgba(var(--text-rgb), .57);
+    padding: 2px .5rem;
+    border-radius: 5px;
+}
+
+header nav a.active {
+    border: 1px solid rgba(var(--active-rgb), .8);
+    color: rgba(var(--active-rgb), .8);
+}
+
+.header-cart path {
+    stroke: tomato;
+    fill: transparent;
+}
+
+.header-cart:hover path {
+    fill: tomato;
+}
+
+h1 a {
+    display: inline-block;
+    background: linear-gradient(to right bottom, var(--primary), rgba(var(--primary-rgb), .2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.5rem;
+}
+
+
+/* 顶部 右侧用户 */
+
+.user {
+    min-width: 8rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .5rem;
+    cursor: pointer;
+    color: rgba(var(--text-rgb), .5);
+    font-size: .9rem;
+}
+
+.user .avatar-container,
+.user .avatar {
+    display: block;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+}
+
+.user .avatar-container {
+    background-color: rgba(var(--primary-rgb), .8);
+    background: linear-gradient(to right bottom, var(--primary), rgba(var(--active-rgb), .2));
+}
+
+.user-actions {
+    position: absolute;
+    z-index: 999;
+    right: -0.5rem;
+    top: 100%;
+    display: none;
+    text-align: center;
+    font-size: 0.9rem;
+    padding-top: 0.8rem;
+    font-size: .8rem;
+}
+
+.user:hover .user-actions {
+    display: block;
+}
+
+.user-actions li {
+    padding: .15rem .75rem;
+    border-radius: .25rem;
+    transition: .2s all;
+}
+
+.user-actions li:hover {
+    background-color: rgba(var(--active-rgb), .75);
+    color: white;
+}
+
+main {
+    padding: 0 1rem 1rem;
+    height: calc(100vh - 52px - 4rem);
+}
+
+main>.container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1rem;
+    max-height: 100%;
+}

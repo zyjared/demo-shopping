@@ -1,0 +1,237 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #285bf4;
+  --primary-rgb: 79, 70, 229;
+  --active: #835ad6;
+  --active-rgb: 131, 90, 214;
+
+  --danger: #ca4b4b;
+  --warning: #ff9a47;
+  --success: green;
+
+  /* 模式颜色 */
+  --text: #000000;
+  --text-rgb: 0, 0, 0;
+  --bg: #fff;
+  --bg-rgb: 255, 255, 255;
+}
+
+body ::-webkit-scrollbar {
+  width: .5rem;
+}
+
+body ::-webkit-scrollbar-track {
+  background: rgba(var(--text-rgb), 0.2);
+  border-radius: 99px;
+}
+
+body ::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--text-rgb), 0.45);
+  border-radius: 99px;
+}
+
+body ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(var(--text-rgb), 0.75);
+}
+
+.dark {
+  --text: #cbd5e1;
+  --text-rgb: 203, 213, 225;
+  --bg: #0f172a;
+  --bg-rgb: 15, 23, 42;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  font-size: 15px;
+  letter-spacing: .1em;
+
+  background: url("/assets/images/bg.jpg") no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+input,
+button,
+.btn,
+.btn-solid {
+  color: var(--text);
+  border: 1px solid var(--primary);
+  border-radius: 0.25rem;
+  padding: 0 0.5rem;
+  height: 2rem;
+  line-height: 2rem;
+  vertical-align: baseline;
+  outline: unset;
+  background-color: rgba(var(--bg-rgb), 0);
+  transition: all 0.1s;
+  vertical-align: top;
+}
+
+input {
+  outline: 1px solid transparent;
+  outline-offset: 1px;
+}
+
+input:focus {
+  border-color: var(--active);
+  outline-color: var(--active);
+}
+
+a,
+.link,
+.link-danger {
+  display: inline-block;
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.1s;
+  cursor: pointer;
+}
+
+.link-danger {
+  color: var(--danger);
+}
+
+a:hover,
+.link:hover,
+.link-danger:hover {
+  color: var(--active);
+}
+
+button,
+.btn,
+.btn-solid {
+  font-size: 0.8rem;
+  color: var(--primary);
+  text-align: center;
+  cursor: pointer;
+}
+
+button:hover,
+.btn:hover {
+  background-color: var(--active);
+  border-color: var(--active);
+  color: white;
+}
+
+.btn-solid {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-solid:hover {
+  background-color: var(--active);
+  border-color: var(--active);
+}
+
+svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  vertical-align: middle;
+}
+
+.min-h-full {
+  min-height: 100vh;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.text-sm {
+  font-size: 0.8rem;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.m-auto {
+  margin: auto;
+}
+
+.card,
+.card-border {
+  border-radius: 0.5rem;
+  padding: 1.25rem 2rem;
+  transition: all 0.2s;
+}
+
+.card-border {
+  border: 1px solid var(--primary);
+}
+
+.shadow {
+  box-shadow: -2px 5px 30px rgba(var(--primary-rgb), 0.25);
+}
+
+.glass,
+.glass-container {
+  position: relative;
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 4px 8px rgba(var(--text-rgb), 0.1);
+  border-radius: 0.5rem;
+}
+
+.glass-container {
+  margin: 1rem;
+}
+
+.glass::before,
+.glass-container::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  /* 消除 backdrop-filter 层级影响，包括使用伪元素也是这个原因 */
+  width: 100%;
+  height: 100%;
+  background-color: rgba(var(--bg-rgb), 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: inherit;
+  transition: all 0.2s;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

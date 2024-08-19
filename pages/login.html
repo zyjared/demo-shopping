@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In</title>
+
+  <script src="../scripts/core/element.js"></script>
+  <script src="../scripts/core/api.js"></script>
+  <script src="../scripts/accounts.js"></script>
+
+  <link rel="stylesheet" href="../styles/login.css" />
+</head>
+
+<body>
+  <div class="flex-center min-h-full">
+    <div class="m-auto glass shadow login ani-slide-up">
+      <h2 class="title"><span>登录</span> <span class="broom" onclick="$api.clear()"><svg xmlns="http://www.w3.org/2000/svg"
+            width="32" height="32" viewBox="0 0 48 48">
+            <g fill="none" stroke="#888888">
+              <path stroke-linejoin="round" stroke-width="4.302"
+                d="M44.782 24.17L31.918 7.1L14.135 20.5L27.5 37l3.356-2.336z" />
+              <path stroke-linejoin="round" stroke-width="4.302"
+                d="m27.5 37l-3.839 3.075l-10.563-.001l-2.6-3.45l-6.433-8.536L14.5 20.225" />
+              <path stroke-linecap="round" stroke-width="4.5" d="M13.206 40.072h31.36" />
+            </g>
+          </svg></span></h2>
+
+      <div class="inputs">
+        <div class="item">
+          <span class="label">用户名</span>
+          <input class="username" type="text" id="username" placeholder="username" onfocus="$accounts.setErrorText()" />
+        </div>
+
+        <div class="item">
+          <span class="label">密码</span>
+          <input class="password" type="password" id="password" placeholder="password" onfocus="$accounts.setErrorText()" />
+        </div>
+      </div>
+
+      <p class="error"></p>
+
+      <div>
+        <button type="button" class="btn-solid w-full" onclick="login()">登录</button>
+        <p class="text-sm align-right">
+          没有账号？<a href="signup.html">去注册</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get("username");
+    document.querySelector(".login .username").value = username;
+  </script>
+
+  <script src="../scripts/extensions.js"></script>
+</body>
+
+</html>

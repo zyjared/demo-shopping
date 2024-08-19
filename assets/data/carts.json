@@ -1,0 +1,28 @@
+{
+  "admin": [
+    {
+      "name": "智能手表",
+      "description": "多功能智能手表，支持健康监测和通知提醒。",
+      "price": 320000,
+      "image": "/assets/images/smart_watch.jpg",
+      "count": 2,
+      "id": 4
+    },
+    {
+      "name": "蓝牙耳机",
+      "description": "高质量音效，具备降噪功能。",
+      "price": 199900,
+      "image": "/assets/images/bluetooth_headphones.jpg",
+      "count": 1,
+      "id": 2
+    },
+    {
+      "name": "平板电脑",
+      "description": "高性能平板电脑，适合工作和娱乐。",
+      "price": 999900,
+      "image": "/assets/images/tablet.jpg",
+      "count": 1,
+      "id": 5
+    }
+  ]
+}

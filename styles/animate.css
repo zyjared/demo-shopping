@@ -1,0 +1,68 @@
+/* 摇晃，警告框需要 */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    10%, 50%,  90% { transform: translateX(-10px); }
+    30%, 70%, 60% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
+.ani-shake {
+    animation: shake 0.3s ease-in-out 1;
+}
+
+
+/* 从下往上出现 */
+@keyframes slideUp {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.ani-slide-up {
+    opacity: 0;
+    animation: .3s slideUp .1s ease-out forwards;
+
+}
+
+/* 浮现 */
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.ani-show {
+    opacity: 0;
+    animation: .3s show 0 ease-out forwards;
+}
+
+
+/* 动画后：定制 */
+
+.delay-10 {
+    animation-delay: .1s;
+}
+
+.delay-30 {
+    animation-delay: .3s;
+}
+
+.delay-50 {
+    animation-delay: .5s;
+}
+
+.delay-70 {
+    animation-delay: .7s;
+}
+
+.delay-100 {
+    animation-delay: 1s;
+}

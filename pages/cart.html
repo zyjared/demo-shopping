@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart</title>
+
+  <script src="../scripts/core/element.js"></script>
+  <script src="../scripts/core/api.js"></script>
+  <script src="../scripts/core/table.js"></script>
+  <script src="../scripts/accounts.js"></script>
+
+  <script src="../scripts/layout.js"></script>
+  <script src="../scripts/carts.js"></script>
+
+  <link rel="stylesheet" href="/styles/common.css" class="css">
+  <style>
+    /* table */
+
+    .cart {
+      width: 100%;
+      height: 100%;
+      text-align: left;
+      font-size: .8rem;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart tbody {
+      flex: 1;
+      overflow: auto;
+    }
+
+    .cart tr {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: .5rem 1rem;
+      /* cursor: pointer; */
+      transition: background-color .2s;
+    }
+
+    .cart tbody tr:nth-child(2n) {
+      background-color: rgba(var(--primary-rgb), .1);
+    }
+
+    .cart tbody tr:hover {
+      background-color: rgba(var(--active-rgb), .25);
+    }
+
+    .cart tr>* {
+      width: 5rem;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      text-overflow: ellipsis;
+    }
+
+    .cart tr *:nth-child(2) {
+      width: 3rem;
+    }
+
+    .cart tr *:nth-child(3) {
+      flex: 1;
+    }
+
+    .cart tr *:nth-child(6) {
+      width: 6rem;
+    }
+
+    .cart tr *:nth-child(7) {
+      width: 6rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="glass-container">
+    <h1><a href="/pages/home.html">
+        SHOPPING
+      </a></h1>
+      <nav>
+        <ul>
+          <li>
+            <a href="/pages/home.html">
+              首页
+            </a>
+          </li>
+          <li>
+            <a class="active" href="#">
+              购物车
+            </a>
+          </li>
+        </ul>
+      </nav>
+    <div class="user">
+      <span class="username">用户</span>
+      <div class="avatar-container"></div>
+      <div class="user-actions ani-slide-up">
+        <ul class="glass">
+          <li class="link" onclick="logout()">注销</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="glass-container">
+    <table class="cart ani-slide-up delay-30">
+      <thead class=" ani-slide-up delay-50">
+      </thead>
+      <tbody class="ani-slide-up delay-70">
+      </tbody>
+      <tfoot>
+      </tfoot>
+    </table>
+  </main>
+
+
+  <script>
+    function formatePrice(price) {
+      return `¥${(price / 100).toFixed(2)}`
+    }
+
+    function getIndexRowByCellNode(cell) {
+      const row = cell.parentNode.parentNode
+      return Array.prototype.indexOf.call(row.parentNode.children, row)
+    }
+  </script>
+  <script>
+    let cartRef
+    function getCartRef() {
+      if (!cartRef) {
+        cartRef = document.querySelector('.cart tbody')
+      }
+      return cartRef
+    }
+
+    // 表格配置
+    const cartColumns = [
+      {
+        th: 'name',
+        zh: '商品',
+        el(data) {
+          return data[this.th]
+        },
+      },
+      {
+        th: 'image',
+        zh: '图片',
+        el(data) {
+          return $element.create('img', {
+            src: data[this.th],
+            alt: `${data[this.th]}图片`,
+            width: 32,
+            height: 32,
+            style: {
+              borderRadius: '.25rem',
+              objectFit: 'cover',
+            },
+          })
+        },
+      },
+      {
+        th: 'description',
+        zh: '描述',
+        el(data) {
+          return data[this.th]
+        },
+      },
+      {
+        th: 'price',
+        zh: '价格',
+        el(data) {
+          return formatePrice(data[this.th])
+        },
+      },
+      {
+        th: 'count',
+        zh: '数量',
+        el(data) {
+          return $element.create('input', {
+            type: 'number',
+            min: 0,
+            value: data[this.th],
+            placeholder: `${data.name}加购的数量`,
+            style: {
+              width: '4rem',
+              paddingRight: 0,
+            },
+            events: {
+              change(_event, price = data.price, id = data.id) {
+                const cart = getCartRef()
+                const count = Number.parseInt(this.value)
+                const indexRow = getIndexRowByCellNode(this)
+                if (count === 0) {
+                  // 更新数据
+                  $carts.deleteItem(id)
+
+                  this.removeEventListeners()
+
+                  // 清除 actions 的监听
+                  const indexActions = cartColumns.findIndex(d => d.th === 'actions')
+                  cart.rows[indexRow].cells[indexActions].firstChild.firstChild.removeEventListeners()
+
+                  $table.deleteRow(cart, indexRow)
+
+                  checkEmpty()
+                }
+                else {
+                  $table.setCell(cart, indexRow, cartColumns.findIndex(d => d.th === 'total'), formatePrice(count * price))
+
+                  // 更新数据
+                  $carts.updateItem(id, { count })
+                }
+              },
+            },
+          })
+        },
+      },
+      {
+        th: 'total',
+        zh: '总价',
+        el(data) {
+          return formatePrice(data.price * data.count)
+        },
+      },
+      {
+        th: 'actions',
+        zh: '操作',
+        el(data) {
+          const detail = $element.create('a', {
+            textContent: '详情',
+            class: 'link',
+            href: `/pages/product.html?data=${JSON.stringify(data)}`,
+            style: {
+              marginLeft: '.5rem'
+            }
+          })
+          const remove = $element.create('a', {
+            textContent: '删除',
+            class: 'link-danger',
+            events: {
+              click(event, id = data.id) {
+                event.preventDefault()
+                const cart = getCartRef()
+                const indexRow = getIndexRowByCellNode(this.parentNode)
+
+                // 更新数据
+                $carts.deleteItem(id)
+
+                // 清除 count 的监听
+                const indexCount = cartColumns.findIndex(d => d.th === 'count')
+                cart.rows[indexRow].cells[indexCount].firstChild.removeEventListeners()
+
+                this.removeEventListeners()
+
+                $table.deleteRow(cart, indexRow)
+
+                checkEmpty()
+              },
+            },
+          })
+
+          return $element.create('div', {
+            children: [
+              remove,
+              detail
+            ]
+          })
+        },
+      },
+    ]
+
+    async function cartsInit() {
+      const carts = await $carts.getList()
+
+      // thead
+      $table.setRow('.cart thead', 0, cartColumns.map(head => head.zh), { type: 'th' })
+
+      // tbody
+      carts.forEach((data, indexRow) => {
+        $table.setRow(getCartRef(), indexRow, cartColumns.map(head => head.el(data, indexRow)))
+      })
+
+      checkEmpty();
+    }
+
+    async function checkEmpty() {
+      const carts = await $carts.getList()
+
+      if (carts.length) return;
+
+      getCartRef().append($element.create('div', {
+        style: {
+          fontSize: '1.25rem',
+          paddingTop: '20%',
+          textAlign: 'center'
+        },
+        children: [
+          $element.create('p', { textContent: '空空如也' }),
+          $element.create('a', { textContent: '去购物~', href: '/pages/home.html', style: { fontSize: '1rem' } })
+        ]
+      }))
+
+    }
+
+    cartsInit()
+
+  </script>
+  <script src="../scripts/extensions.js"></script>
+
+</body>
+
+</html>

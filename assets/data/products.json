@@ -1,0 +1,37 @@
+{
+  "item1": {
+    "name": "无线鼠标",
+    "description": "一款流畅响应的无线鼠标，符合人体工程学设计。",
+    "price": 15999,
+    "image": "/assets/images/wireless_mouse.jpg",
+    "id": 1
+  },
+  "item2": {
+    "name": "蓝牙耳机",
+    "description": "高质量音效，具备降噪功能。",
+    "price": 199900,
+    "image": "/assets/images/bluetooth_headphones.jpg",
+    "id": 2
+  },
+  "item3": {
+    "name": "跑步鞋",
+    "description": "舒适耐用的跑步鞋，适合日常使用。",
+    "price": 49999,
+    "image": "/assets/images/running_shoes.jpg",
+    "id": 3
+  },
+  "item4": {
+    "name": "智能手表",
+    "description": "多功能智能手表，支持健康监测和通知提醒。",
+    "price": 320000,
+    "image": "/assets/images/smart_watch.jpg",
+    "id": 4
+  },
+  "item5": {
+    "name": "平板电脑",
+    "description": "高性能平板电脑，适合工作和娱乐。",
+    "price": 999900,
+    "image": "/assets/images/tablet.jpg",
+    "id": 5
+  }
+}
